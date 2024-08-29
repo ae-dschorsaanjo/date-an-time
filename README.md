@@ -31,4 +31,4 @@ Besides these, you can also click on the date to show this README.
 ## License
 
 This code is licensed under the BSC 3-clause license (see: [LICENSE](./LICENSE)).
-The optionally displayed GIF is licensed under the CC0 license and can be found here: [https://commons.wikimedia.org/wiki/File:Frequency_divider_animation.gif]
+The optionally displayed GIF is licensed under the CC0 license and can be found here: https://commons.wikimedia.org/wiki/File:Frequency_divider_animation.gif
