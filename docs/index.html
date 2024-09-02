@@ -140,6 +140,8 @@
     };
     const RANDOM = document.getElementById('random');
     const BACKGROUND = document.getElementById('background');
+    const SCALE_TINY = 0.775;
+    const SCALE_PC = 1;
 
     var firstRun = true;
     var isRunning = true;
@@ -218,6 +220,11 @@
         if (e.key === 'y') {
             randomMode = false;
             changeColor(COLORS[COLOR_IDX['2']], COLORS[COLOR_IDX['2']], COLORS[COLOR_IDX['3']]);
+            return;
+        }
+        if (e.key === 's') {
+            document.body.style.scale === SCALE_TINY ? SCALE_PC : SCALE_TINY;
+            return;
         }
         if (colorMode === null) {
             if (e.key === 'b') {

@@ -9,7 +9,8 @@ The date is displayed in YYYY-MM-DD (ISO) format and the time is hh:mm:ss (24h c
 
 - ` ` (space): pause the time
 - `g`: switch to a random colors
-- `f`, `b`, `h`: change the foreground, background or highlight color respectively. After pressing this, you can change the color by pressing `` ` ``, `-` or a number. Available colors:
+- `f`, `b`, `h`: change the foreground, background or highlight color respectively. After pressing this, you can change the color by pressing `` ` ``, `-` or a number. (default: white, gray, pink)  
+  Available colors:
   - `\``: transparent
   - `1`: black
   - `2`: gray
@@ -22,9 +23,10 @@ The date is displayed in YYYY-MM-DD (ISO) format and the time is hh:mm:ss (24h c
   - `9`: purple
   - `0`: pink
   - `-`: blue
-- `r:` toggle automatic random colors; color scheme will change every 10 minutes
-- `y:` switch to predefined white-shadows-on-black color scheme (foreground and background are gray, highlight is white)
-- `t:` toggle background; the background is a GIF with 1% opacity that changes every 0.5 seconds. This is here in case something requires "visible" changes more frequently than 1 second
+- `r`: toggle automatic random colors; color scheme will change every 10 minutes (default: on)
+- `y`: switch to predefined white-shadows-on-black color scheme (foreground and background are gray, highlight is white)
+- `s`: change the scaling to better fit either the TinyTV2 or the PC (default: TinyTV2)
+- `t`: toggle background; the background is a GIF with 1% opacity that changes every 0.5 seconds. This is here in case something requires "visible" changes more frequently than 1 second (default: off)
 
 Besides these, you can also click on the date to show this README.
 
