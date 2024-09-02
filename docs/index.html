@@ -223,7 +223,7 @@
             return;
         }
         if (e.key === 's') {
-            document.body.style.scale = document.body.style.scale === SCALE_TINY ? SCALE_PC : SCALE_TINY;
+            document.body.style.scale = document.body.style.scale == SCALE_TINY ? SCALE_PC : SCALE_TINY;
             return;
         }
         if (colorMode === null) {
@@ -268,6 +268,8 @@
     });
 
     updateDateTime();
+
+    document.body.style.scale = SCALE_TINY;
 </script>
 
 </html>
