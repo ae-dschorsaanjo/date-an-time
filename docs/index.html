@@ -223,7 +223,8 @@
             return;
         }
         if (e.key === 's') {
-            document.body.style.scale === SCALE_TINY ? SCALE_PC : SCALE_TINY;
+            let scale = document.body.style.scale;
+            scale = scale === SCALE_TINY ? SCALE_PC : SCALE_TINY;
             return;
         }
         if (colorMode === null) {
