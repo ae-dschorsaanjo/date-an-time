@@ -11,7 +11,7 @@ The date is displayed in YYYY-MM-DD (ISO) format and the time is hh:mm:ss (24h c
 - `g`: switch to a random colors
 - `f`, `b`, `h`: change the foreground, background or highlight color respectively. After pressing this, you can change the color by pressing `` ` ``, `-` or a number. (default: white, gray, pink)  
   Available colors:
-  - `\``: transparent
+  - `` ` ``: transparent
   - `1`: black
   - `2`: gray
   - `3`: white
