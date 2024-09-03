@@ -27,6 +27,7 @@ The date is displayed in YYYY-MM-DD (ISO) format and the time is hh:mm:ss (24h c
 - `y`: switch to predefined white-shadows-on-black color scheme (foreground and background are gray, highlight is white)
 - `s`: change the scaling to better fit either the TinyTV2 or the PC (default: TinyTV2)
 - `t`: toggle background; the background is a GIF with 1% opacity that changes every 0.5 seconds. This is here in case something requires "visible" changes more frequently than 1 second (default: off)
+- `u`: toggle the HUD which displays the current state (default: off)
 
 Besides these, you can also click on the date to show this README.
 

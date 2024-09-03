@@ -10,7 +10,9 @@
     <meta name="description"
         content="This page shows the current date and time. Written specifically to be streamed to a TinyTV2.">
     <meta name="theme-color" content="#282a36">
-    <link rel="shortcut icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAAXNSR0IArs4c6QAAACRQTFRFAAAAKCo2REda+PjyYnKki+n9UPp7/7hs/3nGvZP5/1VV8fqMboloIAAAAAx0Uk5TAP//////////////CcRQJgAAAGZJREFUOI1jYKAOYMcKCEgjKSGkAMhgwgpgKohUwIwGBkYBBzMHB4zApgAkAcQQGp8JUDQQviAQ1CwsLKiSIAHqKsDrBsqTHOFUDVaBmRPQ8gWWrILXAFQxLAagCmKTRxElqAAfAACdkgu5o0ZVZgAAAABJRU5ErkJggg==" type="image/x-icon">
+    <link rel="shortcut icon"
+        href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAAXNSR0IArs4c6QAAACRQTFRFAAAAKCo2REda+PjyYnKki+n9UPp7/7hs/3nGvZP5/1VV8fqMboloIAAAAAx0Uk5TAP//////////////CcRQJgAAAGZJREFUOI1jYKAOYMcKCEgjKSGkAMhgwgpgKohUwIwGBkYBBzMHB4zApgAkAcQQGp8JUDQQviAQ1CwsLKiSIAHqKsDrBsqTHOFUDVaBmRPQ8gWWrILXAFQxLAagCmKTRxElqAAfAACdkgu5o0ZVZgAAAABJRU5ErkJggg=="
+        type="image/x-icon">
     <title>Date An' Time</title>
     <style>
         :root {
@@ -105,6 +107,18 @@
             text-shadow: var(--shadow-random-neg) var(--shadow-random-neg) var(--shadow-random-third) var(--fg), var(--shadow-random) var(--shadow-random-neg) var(--shadow-random-third) var(--fg), var(--shadow-random-neg) var(--shadow-random) var(--shadow-random-third) var(--fg), var(--shadow-random) var(--shadow-random) var(--shadow-random-third) var(--hilite);
             cursor: pointer;
         }
+
+        #hud {
+            position: fixed;
+            z-index: 0;
+            bottom: 0;
+            right: 0;
+            font-size: 1vw;
+            color: var(--fg);
+            background-color: var(--bg);
+            white-space: pre;
+            text-align: left;
+        }
     </style>
 </head>
 
@@ -115,9 +129,11 @@
         <div id="date" class="highlight"></div>
         <div id="time" class="highlight"></div>
         <div id="random">*</div>
+        <div id="hud"></div>
     </div>
 </body>
 <script>
+    const BODY = document.body;
     const DATE = document.getElementById('date');
     const TIME = document.getElementById('time');
     const BG = 'bg';
@@ -138,16 +154,53 @@
         '0': 10,
         '-': 11,
     };
+    const KEY_IDX = {
+        0: '`',
+        1: '1',
+        2: '2',
+        3: '3',
+        4: '4',
+        5: '5',
+        6: '6',
+        7: '7',
+        8: '8',
+        9: '9',
+        10: '0',
+        11: '-',
+    }
     const RANDOM = document.getElementById('random');
     const BACKGROUND = document.getElementById('background');
     const SCALE_TINY = 0.775;
     const SCALE_PC = 1;
+    const HUD = document.getElementById('hud');
 
     var firstRun = true;
     var isRunning = true;
     var colorMode = null;
     var randomMode = false;
     var bgImg = false;
+
+    function currentColor() {
+        const B = BODY.style.getPropertyValue('--bg').slice(6, -1);
+        const F = BODY.style.getPropertyValue('--fg').slice(6, -1);
+        const H = BODY.style.getPropertyValue('--hilite').slice(6, -1);
+        const BI = KEY_IDX[COLORS.indexOf(B)];
+        const FI = KEY_IDX[COLORS.indexOf(F)];
+        const HI = KEY_IDX[COLORS.indexOf(H)];
+        return [`b${BI} (${B})`, `f${FI} (${F})`, `h${HI} (${H})`];
+    }
+
+    function state(print = true) {
+        const text = `firstRun: ${firstRun}
+isRunning: ${isRunning}
+randomMode: ${randomMode}
+colorMode: ${colorMode}
+bgImg: ${bgImg}
+colors:
+${currentColor().map(c => `  ${c}`).join('\n')}`;
+        if (print) console.log(text);
+        return text;
+    }
 
     function updateDateTime() {
         const date = new Date();
@@ -167,6 +220,7 @@
             randomMode = M;
             firstRun = false;
         }
+        HUD.innerHTML = state();
     }
 
     function randomColor() {
@@ -175,18 +229,18 @@
 
     function changeColor(bg, fg, hilite) {
         if (bg || fg || hilite) {
-            if (bg) document.body.style.setProperty('--bg', `var(--${bg})`);
-            if (fg) document.body.style.setProperty('--fg', `var(--${fg})`);
-            if (hilite) document.body.style.setProperty('--hilite', `var(--${hilite})`);
+            if (bg) BODY.style.setProperty('--bg', `var(--${bg})`);
+            if (fg) BODY.style.setProperty('--fg', `var(--${fg})`);
+            if (hilite) BODY.style.setProperty('--hilite', `var(--${hilite})`);
             return;
         }
         if (!bg) bg = randomColor();
         if (!fg) fg = randomColor();
         if (!hilite) hilite = randomColor();
 
-        document.body.style.setProperty('--bg', `var(--${bg})`);
-        document.body.style.setProperty('--fg', `var(--${fg})`);
-        document.body.style.setProperty('--hilite', `var(--${hilite})`);
+        BODY.style.setProperty('--bg', `var(--${bg})`);
+        BODY.style.setProperty('--fg', `var(--${fg})`);
+        BODY.style.setProperty('--hilite', `var(--${hilite})`);
     }
 
     function toggleRandom() {
@@ -198,7 +252,7 @@
         if (isRunning) updateDateTime();
     }, 100);
 
-    document.body.addEventListener('keydown', (e) => {
+    BODY.addEventListener('keydown', (e) => {
         if (e.key === ' ') {
             isRunning = !isRunning;
             return;
@@ -223,7 +277,11 @@
             return;
         }
         if (e.key === 's') {
-            document.body.style.scale = document.body.style.scale == SCALE_TINY ? SCALE_PC : SCALE_TINY;
+            BODY.style.scale = BODY.style.scale == SCALE_TINY ? SCALE_PC : SCALE_TINY;
+            return;
+        }
+        if (e.key === 'u') {
+            HUD.style.display = HUD.style.display == 'none' ? 'block' : 'none';
             return;
         }
         if (colorMode === null) {
@@ -269,7 +327,11 @@
 
     updateDateTime();
 
-    document.body.style.scale = SCALE_TINY;
+    BODY.style.scale = SCALE_TINY;
+    BODY.style.setProperty('--bg', `var(--blue)`);
+    BODY.style.setProperty('--fg', `var(--white)`);
+    BODY.style.setProperty('--hilite', `var(--pink)`);
+    HUD.style.display = 'none';
 </script>
 
 </html>
