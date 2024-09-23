@@ -202,17 +202,27 @@ ${currentColor().map(c => `  ${c}`).join('\n')}`;
         return text;
     }
 
-    function updateDateTime() {
+    function getDateComponents() {
         const date = new Date();
         const DT = date.toLocaleString('sv');
         const D = DT.substring(0, 10);
         const T = DT.substring(11, 22);
         const M = DT[14];
+        return [D, T, M];
+    }
+
+    function updateDateTime() {
+        const date = new Date();
+        // const DT = date.toLocaleString('sv');
+        // const D = DT.substring(0, 10);
+        // const T = DT.substring(11, 22);
+        // const M = DT[14];
+        const [D, T, M] = getDateComponents();
         TIME.innerHTML = T;
         DATE.innerHTML = D;
         if (randomMode !== false) {
             if (randomMode != M) {
-                changeColor();
+                changeColors();
                 randomMode = M;
             }
         }
@@ -227,7 +237,7 @@ ${currentColor().map(c => `  ${c}`).join('\n')}`;
         return COLORS[Math.floor(Math.random() * COLORS.length)]
     }
 
-    function changeColor(bg, fg, hilite) {
+    function changeColors(bg, fg, hilite) {
         if (bg || fg || hilite) {
             if (bg) BODY.style.setProperty('--bg', `var(--${bg})`);
             if (fg) BODY.style.setProperty('--fg', `var(--${fg})`);
@@ -244,8 +254,10 @@ ${currentColor().map(c => `  ${c}`).join('\n')}`;
     }
 
     function toggleRandom() {
-        randomMode = !randomMode;
-        RANDOM.style.display = ['none', 'block'][+randomMode];
+        // randomMode = !randomMode;
+        if (randomMode !== false) randomMode = false;
+        else randomMode = getDateComponents()[2];
+        RANDOM.style.display = ['none', 'block'][+(randomMode !== false)];
     }
 
     setInterval(() => {
@@ -255,6 +267,7 @@ ${currentColor().map(c => `  ${c}`).join('\n')}`;
     BODY.addEventListener('keydown', (e) => {
         if (e.key === ' ') {
             isRunning = !isRunning;
+            HUD.innerHTML = state();
             return;
         }
         if (e.key === 'r') {
@@ -267,13 +280,15 @@ ${currentColor().map(c => `  ${c}`).join('\n')}`;
             return;
         }
         if (e.key === 'g') {
-            changeColor();
+            changeColors();
             colorMode = null;
             return;
         }
         if (e.key === 'y') {
             randomMode = false;
-            changeColor(COLORS[COLOR_IDX['2']], COLORS[COLOR_IDX['2']], COLORS[COLOR_IDX['3']]);
+            changeColors(COLORS[2], null, null);
+            changeColors(null, COLORS[2], null);
+            changeColors(null, null, COLORS[3]);
             return;
         }
         if (e.key === 's') {
@@ -285,26 +300,102 @@ ${currentColor().map(c => `  ${c}`).join('\n')}`;
             return;
         }
         if (colorMode === null) {
-            if (e.key === 'b') {
-                colorMode = 'b';
-            }
-            else if (e.key === 'f') {
-                colorMode = 'f';
-            }
-            else if (e.key === 'h') {
-                colorMode = 'h';
+            switch (e.key) {
+                case 'b':
+                    colorMode = 'b';
+                    return;
+                case 'f':
+                    colorMode = 'f';
+                    return;
+                case 'h':
+                    colorMode = 'h';
+                    return;
+                case '`':
+                    changeColors(COLORS[2], null, null);
+                    changeColors(null, COLORS[2], null);
+                    changeColors(null, null, COLORS[3]);
+                    if (randomMode !== false) toggleRandom();
+                    return;
+                case '1':
+                    changeColors(COLORS[1], null, null);
+                    changeColors(null, COLORS[3], null);
+                    changeColors(null, null, COLORS[0]);
+                    if (randomMode !== false) toggleRandom();
+                    return;
+                case '2':
+                    changeColors(COLORS[1], null, null);
+                    changeColors(null, COLORS[2], null);
+                    changeColors(null, null, COLORS[10]);
+                    if (randomMode !== false) toggleRandom();
+                    return;
+                case '3':
+                    changeColors(COLORS[3], null, null);
+                    changeColors(null, COLORS[1], null);
+                    changeColors(null, null, COLORS[0]);
+                    if (randomMode !== false) toggleRandom();
+                    return;
+                case '4':
+                    changeColors(COLORS[4], null, null);
+                    changeColors(null, COLORS[2], null);
+                    changeColors(null, null, COLORS[6]);
+                    if (randomMode !== false) toggleRandom();
+                    return;
+                case '5':
+                    changeColors(COLORS[6], null, null);
+                    changeColors(null, COLORS[1], null);
+                    changeColors(null, null, COLORS[5]);
+                    if (randomMode !== false) toggleRandom();
+                    return;
+                case '6':
+                    changeColors(COLORS[6], null, null);
+                    changeColors(null, COLORS[3], null);
+                    changeColors(null, null, COLORS[2]);
+                    if (randomMode !== false) toggleRandom();
+                    return;
+                case '7':
+                    changeColors(COLORS[2], null, null);
+                    changeColors(null, COLORS[7], null);
+                    changeColors(null, null, COLORS[1]);
+                    if (randomMode !== false) toggleRandom();
+                    return;
+                case '8':
+                    changeColors(COLORS[8], null, null);
+                    changeColors(null, COLORS[1], null);
+                    changeColors(null, null, COLORS[3]);
+                    if (randomMode !== false) toggleRandom();
+                    return;
+                case '9':
+                    changeColors(COLORS[9], null, null);
+                    changeColors(null, COLORS[3], null);
+                    changeColors(null, null, COLORS[1]);
+                    if (randomMode !== false) toggleRandom();
+                    return;
+                case '0':
+                    changeColors(COLORS[10], null, null);
+                    changeColors(null, COLORS[9], null);
+                    changeColors(null, null, COLORS[2]);
+                    if (randomMode !== false) toggleRandom();
+                    return;
+                case '-':
+                    changeColors(COLORS[11], null, null);
+                    changeColors(null, COLORS[3], null);
+                    changeColors(null, null, COLORS[2]);
+                    if (randomMode !== false) toggleRandom();
+                    return;
+                default:
+                    return;
             }
         }
         else {
             if (e.key in COLOR_IDX) {
                 if (colorMode === 'b') {
-                    changeColor(COLORS[COLOR_IDX[e.key]], null, null);
+                    changeColors(COLORS[COLOR_IDX[e.key]], null, null);
                 }
                 else if (colorMode === 'f') {
-                    changeColor(null, COLORS[COLOR_IDX[e.key]], null);
+                    changeColors(null, COLORS[COLOR_IDX[e.key]], null);
                 }
                 else if (colorMode === 'h') {
-                    changeColor(null, null, COLORS[COLOR_IDX[e.key]]);
+                    changeColors(null, null, COLORS[COLOR_IDX[e.key]]);
                 }
             }
             colorMode = null;
@@ -317,7 +408,7 @@ ${currentColor().map(c => `  ${c}`).join('\n')}`;
     });
 
     TIME.addEventListener('click', () => {
-        changeColor();
+        changeColors();
     });
 
     RANDOM.addEventListener('click', () => {
