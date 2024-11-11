@@ -172,6 +172,7 @@
     const BACKGROUND = document.getElementById('background');
     const SCALE_TINY = 0.735;
     const SCALE_PC = 1;
+    const SCALE_STEP = (SCALE_PC - SCALE_TINY) / 5; // 0.053
     const HUD = document.getElementById('hud');
 
     var firstRun = true;
@@ -179,6 +180,7 @@
     var colorMode = null;
     var randomMode = false;
     var bgImg = false;
+    var lastKey = null;
 
     function currentColor() {
         const B = BODY.style.getPropertyValue('--bg').slice(6, -1);
@@ -197,7 +199,8 @@ randomMode: ${randomMode}
 colorMode: ${colorMode}
 bgImg: ${bgImg}
 colors:
-${currentColor().map(c => `  ${c}`).join('\n')}`;
+${currentColor().map(c => `  ${c}`).join('\n')}
+lastKey: ${lastKey}`;
         if (print) console.log(text);
         return text;
     }
@@ -265,6 +268,7 @@ ${currentColor().map(c => `  ${c}`).join('\n')}`;
     }, 100);
 
     BODY.addEventListener('keydown', (e) => {
+        lastKey = e.key;
         if (e.key === ' ') {
             isRunning = !isRunning;
             HUD.innerHTML = state();
@@ -293,6 +297,14 @@ ${currentColor().map(c => `  ${c}`).join('\n')}`;
         }
         if (e.key === 's') {
             BODY.style.scale = BODY.style.scale == SCALE_TINY ? SCALE_PC : SCALE_TINY;
+            return;
+        }
+        if (e.key === '_') {
+            BODY.style.scale = Math.max(SCALE_TINY, +BODY.style.scale - SCALE_STEP);
+            return;
+        }
+        if (e.key === '+') {
+            BODY.style.scale = Math.min(SCALE_PC, +BODY.style.scale + SCALE_STEP);
             return;
         }
         if (e.key === 'u') {
