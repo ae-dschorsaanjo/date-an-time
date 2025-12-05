@@ -39,9 +39,9 @@
         }
 
         body {
-            --bg: var(--blue);
+            --bg: var(--gray);
             --fg: var(--white);
-            --hilite: var(--pink);
+            --hilite: var(--black);
             --shadow: 14px;
             --shadow-neg: calc(var(--shadow) * -1);
             --shadow-third: calc(var(--shadow) * 2);
@@ -139,7 +139,19 @@
     const BG = 'bg';
     const FG = 'fg';
     const HILITE = 'hilite';
-    const COLORS = ['transparent', 'black', 'gray', 'white', 'red', 'orange', 'yellow', 'green', 'cyan', 'purple', 'pink', 'blue',];
+    const COLORS = [
+        'transparent',
+        'black',
+        'gray',
+        'white',
+        'red',
+        'orange',
+        'yellow',
+        'green',
+        'cyan',
+        'purple',
+        'pink',
+        'blue',];
     const COLOR_IDX = {
         '`': 0,
         '1': 1,
@@ -216,13 +228,11 @@ lastKey: ${lastKey}`;
 
     function updateDateTime() {
         const date = new Date();
-        // const DT = date.toLocaleString('sv');
-        // const D = DT.substring(0, 10);
-        // const T = DT.substring(11, 22);
-        // const M = DT[14];
         const [D, T, M] = getDateComponents();
-        TIME.innerHTML = T;
-        DATE.innerHTML = D;
+        
+        if (TIME.innerHTML != T) TIME.innerHTML = T;
+        if (DATE.innerHTML != D) DATE.innerHTML = D;
+        
         if (randomMode !== false) {
             if (randomMode != M) {
                 changeColors();
@@ -323,9 +333,9 @@ lastKey: ${lastKey}`;
                     colorMode = 'h';
                     return;
                 case '`':
-                    changeColors(COLORS[2], null, null);
-                    changeColors(null, COLORS[2], null);
-                    changeColors(null, null, COLORS[3]);
+                    changeColors(COLORS[11], null, null);
+                    changeColors(null, COLORS[3], null);
+                    changeColors(null, null, COLORS[0]);
                     if (randomMode !== false) toggleRandom();
                     return;
                 case '1':
@@ -415,7 +425,6 @@ lastKey: ${lastKey}`;
     });
 
     DATE.addEventListener('click', () => {
-        //window.open('https://github.com/ae-dschorsaanjo/date-an-time', '_blank');
         window.open('https://github.com/ae-dschorsaanjo/date-an-time?tab=readme-ov-file#keyboard-functions', '_blank');
     });
 
