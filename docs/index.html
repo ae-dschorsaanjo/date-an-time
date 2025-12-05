@@ -335,7 +335,7 @@ lastKey: ${lastKey}`;
                 case '`':
                     changeColors(COLORS[11], null, null);
                     changeColors(null, COLORS[3], null);
-                    changeColors(null, null, COLORS[0]);
+                    changeColors(null, null, COLORS[10]);
                     if (randomMode !== false) toggleRandom();
                     return;
                 case '1':
@@ -440,9 +440,9 @@ lastKey: ${lastKey}`;
     updateDateTime();
 
     BODY.style.scale = SCALE_TINY;
-    BODY.style.setProperty('--bg', `var(--blue)`);
+    BODY.style.setProperty('--bg', `var(--gray)`);
     BODY.style.setProperty('--fg', `var(--white)`);
-    BODY.style.setProperty('--hilite', `var(--pink)`);
+    BODY.style.setProperty('--hilite', `var(--black)`);
     HUD.style.display = 'none';
 </script>
 
