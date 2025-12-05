@@ -151,7 +151,8 @@
         'cyan',
         'purple',
         'pink',
-        'blue',];
+        'blue',
+    ];
     const COLOR_IDX = {
         '`': 0,
         '1': 1,
@@ -187,10 +188,10 @@
     const SCALE_STEP = (SCALE_PC - SCALE_TINY) / 5; // 0.053
     const HUD = document.getElementById('hud');
 
-    var firstRun = true;
+    var firstRandom = false; // change this to enable random by default!
     var isRunning = true;
     var colorMode = null;
-    var randomMode = false;
+    var randomMode = null;
     var bgImg = false;
     var lastKey = null;
 
@@ -205,7 +206,7 @@
     }
 
     function state(print = false) {
-        const text = `firstRun: ${firstRun}
+        const text = `firstRandom: ${firstRandom}
 isRunning: ${isRunning}
 randomMode: ${randomMode}
 colorMode: ${colorMode}
@@ -239,10 +240,6 @@ lastKey: ${lastKey}`;
                 randomMode = M;
             }
         }
-        else if (firstRun) {
-            randomMode = M;
-            firstRun = false;
-        }
         HUD.innerHTML = state();
     }
 
@@ -267,7 +264,6 @@ lastKey: ${lastKey}`;
     }
 
     function toggleRandom() {
-        // randomMode = !randomMode;
         if (randomMode !== false) randomMode = false;
         else randomMode = getDateComponents()[2];
         RANDOM.style.display = ['none', 'block'][+(randomMode !== false)];
@@ -437,13 +433,16 @@ lastKey: ${lastKey}`;
         RANDOM.style.display = 'none';
     });
 
-    updateDateTime();
-
     BODY.style.scale = SCALE_TINY;
     BODY.style.setProperty('--bg', `var(--gray)`);
     BODY.style.setProperty('--fg', `var(--white)`);
     BODY.style.setProperty('--hilite', `var(--black)`);
     HUD.style.display = 'none';
+
+    randomMode = firstRandom ? false : null;
+    toggleRandom();
+
+    updateDateTime();
 </script>
 
 </html>
